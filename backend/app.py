@@ -22,6 +22,10 @@ from itsdangerous import URLSafeTimedSerializer
 # Load environment variables
 load_dotenv()
 
+# Configure Ollama client
+OLLAMA_HOST = os.getenv('OLLAMA_HOST', 'http://localhost:11434')
+ollama_client = ollama.Client(host=OLLAMA_HOST)
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -36,8 +40,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///cha
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # OAuth configuration
-app.config['PREFERRED_URL_SCHEME'] = 'http'
-app.config['SERVER_NAME'] = 'localhost:5000'
+app.config['PREFERRED_URL_SCHEME'] = os.getenv('PREFERRED_URL_SCHEME', 'http')
+app.config['SERVER_NAME'] = os.getenv('SERVER_NAME', None)  # Set to your domain in production
 
 # Session configuration
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)  # Sessions last 7 days
@@ -149,7 +153,7 @@ AVAILABLE_MODELS = [
 def check_ollama_connection():
     """Check if Ollama is running and accessible"""
     try:
-        response = ollama.list()
+        response = ollama_client.list()
         return True
     except Exception as e:
         logger.error(f"Ollama connection failed: {e}")
@@ -158,7 +162,7 @@ def check_ollama_connection():
 def get_available_models():
     """Get list of models available in Ollama"""
     try:
-        models = ollama.list()
+        models = ollama_client.list()
         return [model['name'] for model in models['models']]
     except Exception as e:
         logger.error(f"Failed to get Ollama models: {e}")
@@ -1158,7 +1162,7 @@ def chat():
         messages.append({'role': 'user', 'content': message})
         
         # Generate response using Ollama
-        response = ollama.chat(
+        response = ollama_client.chat(
             model=model,
             messages=messages,
             stream=False
@@ -1171,7 +1175,7 @@ def chat():
             'success': True
         })
         
-    except ollama.ResponseError as e:
+    except Exception as e:
         logger.error(f"Ollama response error: {e}")
         return jsonify({
             'error': f'Ollama error: {str(e)}',
@@ -2039,7 +2043,7 @@ def handle_chat_message(data):
         previous_length = 0  # Track previous response length to avoid duplication
         
         try:
-            for chunk in ollama.chat(
+            for chunk in ollama_client.chat(
                 model=model,
                 messages=messages,
                 stream=True,
@@ -2243,7 +2247,7 @@ def handle_chat_message_v2(data):
         current_chunk_buffer = ""  # Buffer for accumulating chunks to detect content type
         
         try:
-            for chunk in ollama.chat(
+            for chunk in ollama_client.chat(
                 model=model,
                 messages=messages,
                 stream=True,
