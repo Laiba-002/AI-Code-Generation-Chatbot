@@ -1,0 +1,17 @@
+Flask==2.3.3
+Flask-SocketIO==5.3.6
+Flask-CORS==4.0.0
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.3
+Flask-Bcrypt==1.0.1
+python-socketio==5.8.0
+python-engineio==4.7.1
+ollama==0.1.7
+requests==2.31.0
+python-dotenv==1.0.0
+gunicorn==21.2.0 
+redis==4.5.4
+authlib==1.2.1
+itsdangerous==2.1.2
+PyJWT==2.8.0
+PyGithub==1.59.1

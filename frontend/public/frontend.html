@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="module">
+async function takeScreenshot() {
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    const track = stream.getVideoTracks()[0];
+    const imageCapture = new ImageCapture(track);
+    const bitmap = await imageCapture.grabFrame();
+
+    const canvas = document.createElement("canvas");
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(bitmap, 0, 0);
+
+    const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+    stream.getTracks().forEach(t => t.stop());
+
+    window.opener.postMessage(
+      { type: "SCREENSHOT_RESULT", url: URL.createObjectURL(blob) },
+      "*"
+    );
+
+    window.close();
+  } catch (err) {
+    console.error(err);
+    window.close();
+  }
+}
+
+takeScreenshot();
+</script>
+</body>
+</html>

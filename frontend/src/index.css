@@ -1,0 +1,269 @@
+/* stylelint-disable-next-line at-rule-no-unknown */
+/* eslint-disable-next-line */
+@tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
+/* eslint-disable-next-line */
+@tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
+/* eslint-disable-next-line */
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-600;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-chat-bg text-gray-100 font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .chat-message {
+    @apply p-4 rounded-lg mb-4 max-w-4xl;
+  }
+
+  .user-message {
+    @apply bg-chat-user text-white ml-auto text-wrap break-words;
+  }
+
+  .assistant-message {
+    @apply bg-chat-assistant text-gray-100;
+  }
+
+  .typing-indicator {
+    @apply flex space-x-1 p-4;
+  }
+
+  .typing-dot {
+    @apply w-2 h-2 bg-primary-500 rounded-full;
+    animation: wave 1.4s infinite ease-in-out;
+  }
+
+  .typing-dot-1 {
+    animation-delay: -0.32s;
+  }
+
+  .typing-dot-2 {
+    animation-delay: -0.16s;
+  }
+
+  .typing-dot-3 {
+    animation-delay: 0s;
+  }
+
+  .sidebar-item {
+    @apply flex items-center space-x-3 px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-colors cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply bg-gray-700 text-white;
+  }
+
+  .model-selector {
+    @apply bg-gray-800 border border-gray-600 text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .chat-input {
+    @apply bg-gray-800 border border-gray-600 text-gray-100 rounded-lg 
+    px-3 p-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none overflow-hidden;
+  }
+
+  .send-button {
+    @apply bg-primary-500 hover:bg-primary-600 text-white rounded-lg p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom scrollbar styling for chat area */
+  .chat-scrollbar {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #f97316 rgba(55, 65, 81, 0.3);
+  }
+
+  .chat-scrollbar::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.3);
+    border-radius: 6px;
+    margin: 2px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.7);
+    border-radius: 6px;
+    border: 1px solid rgba(55, 65, 81, 0.3);
+    min-height: 30px;
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.9);
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-thumb:active {
+    background: rgba(156, 163, 175, 1);
+  }
+
+  .chat-scrollbar::-webkit-scrollbar-corner {
+    background: rgba(55, 65, 81, 0.3);
+  }
+
+  /* Ensure scrollbar is always visible when content overflows */
+  .chat-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.9);
+  }
+
+  /* Custom scrollbar styling for GitHub modal */
+  .github-modal-scrollbar {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1f2937;
+  }
+
+  .github-modal-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .github-modal-scrollbar::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 4px;
+  }
+
+  .github-modal-scrollbar::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+    min-height: 20px;
+  }
+
+  .github-modal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  .github-modal-scrollbar::-webkit-scrollbar-thumb:active {
+    background: #9ca3af;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Utility class for ensuring proper flex behavior */
+  .min-h-0 {
+    min-height: 0;
+  }
+
+  /* Ensure the app container doesn't scroll */
+  .app-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Ensure chat area is properly constrained */
+  .chat-container {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+/* Slide-in animation for code generation panel */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-slideOut {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Sandpack height override */
+.sp-c-ikJbEZ > .sp-c-euXojQ {
+  height: calc(100vh - 148px) !important;
+  max-height: calc(100vh - 148px) !important;
+}
