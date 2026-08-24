@@ -1,0 +1,1 @@
+AI-powered code generation chatbot with Claude-like interface. Full-stack application featuring React frontend with Tailwind CSS, Flask backend, WebSocket real-time streaming, offline Ollama model support, and intelligent code artifact management. Includes authentication, chat history, live code preview, and comprehensive debugging tools.
